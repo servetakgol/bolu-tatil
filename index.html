@@ -39,7 +39,6 @@
   .links a.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
   .meta{padding:0 20px 20px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:12px}
   .meta b{color:var(--ink)}
-  iframe{width:100%;height:220px;border:0;display:block;border-top:1px solid var(--line)}
   details summary{cursor:pointer;color:var(--accent);font-weight:600}
   .thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
   .thumbs img{width:110px;height:80px;object-fit:cover;border-radius:6px}
@@ -107,6 +106,33 @@
   .wx-day .p{font-size:11px;color:var(--muted);margin-top:2px}
   .wx-day .w{font-size:11px;margin-top:2px}
   .wx-note{font-size:13px;color:var(--muted);padding:0 20px 16px}
+  .rank-two{grid-template-columns:1fr 1fr}
+  @media(max-width:860px){.rank-two{grid-template-columns:1fr}}
+  .rm-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 20px}
+  .chip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer;font-size:14px}
+  .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rm-hotel{padding:0 20px 14px}
+  .rm-hotel h3{margin:10px 0 6px;font-size:15px;display:flex;gap:8px;align-items:center}
+  .rm-hotel h3 .sub{font-weight:400}
+  .rm-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--bg);font-size:14px}
+  .rm-row.hide{display:none}
+  .rm-row.full{opacity:.55}
+  .rm-row.picked{border-color:#be185d;box-shadow:inset 0 0 0 1px #be185d}
+  .rm-row .nm{font-weight:600}
+  .rm-row .nm small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+  .rm-tags{display:flex;gap:4px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:2px 7px;border-radius:6px;border:1px solid var(--line);white-space:nowrap}
+  .tag.y{background:var(--okbg);color:var(--ok);border-color:transparent}
+  .tag.n{color:var(--muted);text-decoration:line-through;opacity:.6}
+  .tag.q{background:rgba(245,158,11,.15);color:#b45309;border-color:transparent}
+  .rm-row .pr{font-weight:700;white-space:nowrap;text-align:right}
+  .rm-row .pr small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+  .heart{border:1px solid var(--line);background:var(--card);border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer;color:#be185d}
+  .heart.on{background:#be185d;color:#fff;border-color:#be185d}
+  .rm-picked{padding:0 20px}
+  .rm-picked .box{border:1px dashed #be185d;border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:6px}
+  .rm-picked .box b{color:#be185d}
+  @media(max-width:600px){.rm-row{grid-template-columns:1fr auto;grid-template-rows:auto auto}.rm-row .rm-tags{grid-column:1/3}.rm-row .pr{text-align:left}}
   .lbl-tip{background:rgba(255,255,255,.9);border:0;border-radius:6px;font:600 12px sans-serif;color:#1d1d1b;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
   .lbl-tip::before{display:none}
   .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
@@ -158,23 +184,44 @@
 <!-- ===== Sıralama ===== -->
 <section class="card" id="siralama">
   <div class="info" style="padding-bottom:0">
-    <h2>Kim neyi istiyor? ⭐</h2>
-    <p class="loc">Her otele yıldız verin: ★ Gitmeyiz · ★★ Pek değil · ★★★ Olur · ★★★★ Gidebiliriz · ★★★★★ Kesin gidelim</p>
+    <h2>Zeynep Balım ne diyor? ⭐</h2>
+    <p class="loc">Her otele yıldız ver: ★ Gitmeyiz · ★★ Pek değil · ★★★ Olur · ★★★★ Gidebiliriz · ★★★★★ Kesin gidelim</p>
   </div>
-  <div class="rank-wrap">
-    <div class="rank-col"><h3><span class="who s">S</span>Servet</h3><ol class="rank-list" id="rank-s"></ol></div>
-    <div class="rank-col"><h3><span class="who z">Z</span>Zeynep</h3><ol class="rank-list" id="rank-z"></ol></div>
-    <div class="rank-col"><h3><span class="who o">★</span>Ortak sonuç</h3><ol class="rank-list" id="rank-o"></ol></div>
+  <div class="rank-wrap rank-two">
+    <div class="rank-col"><h3><span class="who z">Z</span>Zeynep Balım'ın puanları</h3><ol class="rank-list" id="rank-z"></ol></div>
+    <div class="rank-col"><h3><span class="who o">★</span>Sıralama</h3><ol class="rank-list" id="rank-o"></ol></div>
   </div>
   <div class="rank-tools">
     <button class="primary" id="copyLink">🔗 Puanlı linki kopyala</button>
     <button id="resetRank">Sıfırla</button>
     <span class="okmsg" id="copyMsg"></span>
-    <span class="hint">Sayfa statik olduğu için puanlar tarayıcında saklanır ve linke işlenir. Puanlarını ver, linki kopyala, Zeynep'e at; o da kendi sütununu doldurup linki sana geri atsın. İkiniz de aynı linki açınca ortak sonucu görürsünüz.</span>
+    <span class="hint">Puanlar bu tarayıcıda saklanır ve linke işlenir. Puanla, linki kopyala, Servet'e at; o açınca aynı puanları görür.</span>
   </div>
 </section>
 
-<!-- ===== 1. Fikri Atalay Konağı ===== -->
+<!-- ===== Oda Seçimi ===== -->
+<section class="card" id="odalar">
+  <div class="info" style="padding-bottom:0">
+    <h2>Hangi oda? 🛁🔥🏞️</h2>
+    <p class="loc">Üç kriter: jakuzi, şömine, manzara. Filtreyle daralt, beğendiğin odayı ❤ ile işaretle. Fiyatlar 12–14 Kasım, 2 gece, 2 kişi.</p>
+  </div>
+  <div class="rm-filters">
+    <button class="chip" data-f="j">🛁 Jakuzi</button>
+    <button class="chip" data-f="s">🔥 Şömine</button>
+    <button class="chip" data-f="m">🏞️ Manzara</button>
+    <button class="chip" data-f="a">✓ Müsait</button>
+    <span class="sub" id="rm-count"></span>
+  </div>
+  <div id="rm-picked" class="rm-picked"></div>
+  <div id="rm-list"></div>
+  <div class="rank-tools">
+    <button class="primary" id="copyLink2">🔗 Seçimli linki kopyala</button>
+    <span class="okmsg" id="copyMsg2"></span>
+    <span class="hint">? işareti: ilan sayfasında yazmıyor, otele sorulmalı. Fikri Atalay'da şömine yerine odun sobası var (fotoğraflarda görünüyor). Fiyatlar kilitliyse üstteki şifreyi gir.</span>
+  </div>
+</section>
+
+<!-- ===== 1. Fikri Atalay Konağı ===== --><!-- ===== 1. Fikri Atalay Konağı ===== -->
 <section class="card" id="fikri-atalay">
   <div class="top">
     <div class="gallery">
@@ -218,7 +265,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 78K takipçi. Evcil hayvan kabul ediliyor (ek ücret olabilir). Fotoğraflar Jolly'den alındı.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.913150,32.111499&z=13&output=embed" title="Harita"></iframe>
 </section>
 
 <!-- ===== 2. Abant Sedir Park ===== -->
@@ -267,7 +313,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 67K takipçi. Tel: +90 374 225 25 55. Yorumlarda kış aylarında köyde kömür dumanı şikayeti var. Fotoğraflar otelin sitesinden.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.700813,31.455402&z=13&output=embed" title="Harita"></iframe>
 </section>
 
 <!-- ===== 3. Abant Luna ===== -->
@@ -314,7 +359,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 1.4K takipçi, küçük butik villa işletmesi. Abant Gölü'ne yakın. Fotoğraflar Jolly'den.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.677902,31.441498&z=13&output=embed" title="Harita"></iframe>
 </section>
 
 <!-- ===== 4. Abant Cozy Homes ===== -->
@@ -362,7 +406,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Abant Sedir Park ile aynı köyde, komşu sayılır. 4 rustik villa, küçük işletme. Barbekü, bisiklet, masa tenisi var. Fotoğraflar Jolly'den.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.700523,31.455631&z=13&output=embed" title="Harita"></iframe>
 </section>
 
 <!-- ===== 5. Bi Abant Masalı ===== -->
@@ -411,7 +454,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 35K takipçi. Listedeki en pahalı ve en "otel" hissi veren yer; Abant Gölü'ne en yakını. Fotoğraflar Jolly'den.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.659744,31.410908&z=13&output=embed" title="Harita"></iframe>
 </section>
 
 <!-- ===== 6. Hindiba Doğa Evi ===== -->
@@ -461,7 +503,6 @@
     </details>
     <p style="margin:12px 0 0"><b>Not:</b> Listedeki en "farklı" yer: otelden çok doğa köyü hissi. Fikri Atalay ile aynı ilçede (Mengen), aralarında ~15 dk. Fotoğraflar otelin sitesinden.</p>
   </div>
-  <iframe loading="lazy" src="https://www.google.com/maps?q=40.990881,32.043486&z=12&output=embed" title="Harita"></iframe>
 </section>
 
 </main>
@@ -521,71 +562,159 @@
     {id:'hindiba',n:'Hindiba Doğa Evi'}
   ];
   var N=H.length, LBL=['—','Gitmeyiz','Pek değil','Olur','Gidebiliriz','Kesin gidelim'];
-  var state={s:zeros(),z:zeros()};
+  var z=zeros();
   function zeros(){return H.map(function(){return 0});}
   function valid(a){return Array.isArray(a)&&a.length===N&&a.every(function(v){return Number.isInteger(v)&&v>=0&&v<=5});}
-  function parseHash(){
-    var m=location.hash.match(/stars=([^&]+)/); if(!m) return;
-    var parts=m[1].split('|');
-    ['s','z'].forEach(function(k,i){ if(parts[i]){var a=parts[i].split('').map(Number); if(valid(a)) state[k]=a;} });
+  function fromHash(){
+    var m=location.hash.match(/stars=([^&]+)/); if(!m) return null;
+    var p=m[1].split('|'); var str=p.length>1?p[1]:p[0]; // old links: take Zeynep's part
+    var a=str.split('').map(Number); return valid(a)?a:null;
   }
   function load(){
-    try{var st=JSON.parse(localStorage.getItem('stars2')||'{}'); if(valid(st.s)) state.s=st.s; if(valid(st.z)) state.z=st.z;}catch(e){}
-    // link: merge non-zero values over local (so the other person's votes come in without wiping yours)
-    var m=location.hash.match(/stars=([^&]+)/);
-    if(m){var parts=m[1].split('|');['s','z'].forEach(function(k,i){ if(parts[i]){var a=parts[i].split('').map(Number); if(valid(a)) state[k]=state[k].map(function(v,j){return a[j]||v;});} });}
+    try{var st=JSON.parse(localStorage.getItem('stars3')||'null'); if(valid(st)) z=st;}catch(e){}
+    var h=fromHash(); if(h) z=z.map(function(v,j){return h[j]||v;});
   }
-  function save(){
-    try{localStorage.setItem('stars2',JSON.stringify(state));}catch(e){}
-    history.replaceState(null,'','#stars='+state.s.join('')+'|'+state.z.join(''));
+  window.__hashParts=window.__hashParts||{};
+  function writeHash(){
+    var hp=window.__hashParts; hp.stars=z.join('');
+    var parts=[]; for(var k in hp) if(hp[k]) parts.push(k+'='+hp[k]);
+    history.replaceState(null,'','#'+parts.join('&'));
   }
-  function starsHtml(k,i,v){
+  window.__writeHash=writeHash;
+  function save(){ try{localStorage.setItem('stars3',JSON.stringify(z));}catch(e){} writeHash(); }
+  function starsHtml(i,v){
     var h='<span class="stars">';
-    for(var n=1;n<=5;n++) h+='<button data-k="'+k+'" data-i="'+i+'" data-v="'+n+'" class="'+(n<=v?'on':'')+'" aria-label="'+n+' yıldız">★</button>';
+    for(var n=1;n<=5;n++) h+='<button data-i="'+i+'" data-v="'+n+'" class="'+(n<=v?'on':'')+'" aria-label="'+n+' yıldız">★</button>';
     return h+'</span>';
   }
   function render(){
-    ['s','z'].forEach(function(k){
-      var ol=document.getElementById('rank-'+k); ol.innerHTML='';
-      H.forEach(function(h,i){
-        var v=state[k][i], li=document.createElement('li');
-        li.className=v?'' :'unrated';
-        li.innerHTML='<span class="nm">'+h.n+'</span>'+starsHtml(k,i,v)+'<span class="lblx">'+LBL[v]+'</span>';
-        ol.appendChild(li);
-      });
-    });
-    var score=H.map(function(h,i){return {i:i,s:state.s[i],z:state.z[i],t:state.s[i]+state.z[i],min:Math.min(state.s[i],state.z[i])};});
-    score.sort(function(a,b){return b.t-a.t||b.min-a.min;});
-    var ol=document.getElementById('rank-o'); ol.innerHTML='';
-    var anyRated=score.some(function(x){return x.t>0});
-    score.forEach(function(sc,pos){
-      var li=document.createElement('li');
-      var medal=anyRated&&sc.t>0?(pos===0?'🥇':pos===1?'🥈':pos===2?'🥉':''):'';
-      var veto=(sc.s===1||sc.z===1)?' <span title="Biri gitmeyiz demiş">🚫</span>':'';
-      li.innerHTML='<span class="pos">'+(pos+1)+'</span><span class="nm">'+medal+' <a href="#'+H[sc.i].id+'" style="color:inherit;text-decoration:none">'+H[sc.i].n+'</a>'+veto+
-        '<div class="bar" style="width:'+(sc.t*10)+'%"></div></span><span class="pts">S'+(sc.s||'–')+' + Z'+(sc.z||'–')+' = '+sc.t+'/10</span>';
-      if(pos===0&&sc.t>0) li.className='gold';
+    var ol=document.getElementById('rank-z'); ol.innerHTML='';
+    H.forEach(function(h,i){
+      var v=z[i], li=document.createElement('li'); li.className=v?'':'unrated';
+      li.innerHTML='<span class="nm">'+h.n+'</span>'+starsHtml(i,v)+'<span class="lblx">'+LBL[v]+'</span>';
       ol.appendChild(li);
+    });
+    var sc=H.map(function(h,i){return {i:i,v:z[i]}}).sort(function(a,b){return b.v-a.v});
+    var oo=document.getElementById('rank-o'); oo.innerHTML='';
+    var any=sc.some(function(x){return x.v>0});
+    sc.forEach(function(x,pos){
+      var li=document.createElement('li');
+      var medal=any&&x.v>0?(pos===0?'🥇':pos===1?'🥈':pos===2?'🥉':''):'';
+      li.innerHTML='<span class="pos">'+(pos+1)+'</span><span class="nm">'+medal+' <a href="#'+H[x.i].id+'" style="color:inherit;text-decoration:none">'+H[x.i].n+'</a><div class="bar" style="width:'+(x.v*20)+'%"></div></span><span class="pts">'+(x.v?x.v+'★ · '+LBL[x.v]:'—')+'</span>';
+      if(pos===0&&x.v>0) li.className='gold';
+      oo.appendChild(li);
     });
   }
   document.getElementById('siralama').addEventListener('click',function(e){
-    var b=e.target.closest('button[data-k]'); if(!b) return;
-    var k=b.dataset.k,i=+b.dataset.i,v=+b.dataset.v;
-    state[k][i]=(state[k][i]===v)?0:v; // same star again clears
-    save(); render();
+    var b=e.target.closest('button[data-i]'); if(!b) return;
+    var i=+b.dataset.i,v=+b.dataset.v; z[i]=(z[i]===v)?0:v; save(); render();
   });
-  document.getElementById('copyLink').addEventListener('click',function(){
-    save();
-    var url=location.href.split('#')[0]+location.hash;
-    var msg=document.getElementById('copyMsg');
-    function ok(){msg.textContent='Kopyalandı ✓'; setTimeout(function(){msg.textContent='';},2500);}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(ok,function(){prompt('Linki kopyala:',url);});}
-    else prompt('Linki kopyala:',url);
-  });
+  function copy(btnId,msgId){
+    document.getElementById(btnId).addEventListener('click',function(){
+      writeHash(); var url=location.href.split('#')[0]+location.hash, msg=document.getElementById(msgId);
+      function ok(){msg.textContent='Kopyalandı ✓'; setTimeout(function(){msg.textContent='';},2500);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(ok,function(){prompt('Linki kopyala:',url);});}
+      else prompt('Linki kopyala:',url);
+    });
+  }
+  copy('copyLink','copyMsg'); copy('copyLink2','copyMsg2');
   document.getElementById('resetRank').addEventListener('click',function(){
-    if(!confirm('İki puanlama da sıfırlansın mı?')) return;
-    state.s=zeros(); state.z=zeros();
-    try{localStorage.removeItem('stars2');}catch(e){} history.replaceState(null,'',location.pathname); render();
+    if(!confirm('Puanlar sıfırlansın mı?')) return;
+    z=zeros(); try{localStorage.removeItem('stars3');}catch(e){} save(); render();
+  });
+  load(); save(); render();
+})();
+</script>
+<script>
+(function(){
+  // j: jakuzi, s: şömine, m: manzara  (1 var, 0 yok, 2 bilinmiyor) · av: müsait · p: 2 gece fiyat · b: pansiyon
+  var R=[
+    {h:'fikri-atalay',hn:'Fikri Atalay Konağı',rooms:[
+      {id:'fa1',n:'Tiny House',d:'Bahçe manzaralı, odun sobalı, jakuzi, mini mutfak',j:1,s:1,m:1,mv:'Bahçe',av:1,p:22816,b:'Kahvaltı'}
+    ]},
+    {h:'abant-sedir-park',hn:'Abant Sedir Park',rooms:[
+      {id:'sp1',n:'Çift Kişilik, Bahçe Manzaralı, Balkonlu',d:'Son 6 oda',j:0,s:0,m:1,mv:'Bahçe',av:1,p:11250,b:'Kahvaltı'},
+      {id:'sp2',n:'Deluxe Oda, Jakuzili ve Balkonlu',d:'Son 2 oda',j:1,s:0,m:2,mv:'Balkon',av:1,p:18000,b:'Kahvaltı'},
+      {id:'sp3',n:'Ranzalı Aile Odası, Bahçe Manzaralı',d:'Son 4 oda · aile odası',j:0,s:0,m:1,mv:'Bahçe',av:1,p:18375,b:'Kahvaltı'},
+      {id:'sp4',n:'Jakuzili ve Şömineli Suite, Bahçe Manzaralı',d:'Son 1 oda',j:1,s:1,m:1,mv:'Bahçe',av:1,p:20000,b:'Kahvaltı'}
+    ]},
+    {h:'abant-luna',hn:'Abant Luna',rooms:[
+      {id:'lu1',n:'Luna Şömineli',d:'40 m² · şömineli soba · orman manzaralı',j:0,s:1,m:1,mv:'Orman',av:1,p:7000,b:'Sadece oda'},
+      {id:'lu2',n:'Luna Diva',d:'50 m² · çift kişilik + 2 tek yatak',j:0,s:2,m:1,mv:'Orman',av:1,p:8000,b:'Sadece oda'},
+      {id:'lu3',n:'Luna Bungalov',d:'20 m² · küçük bungalov',j:0,s:2,m:1,mv:'Orman',av:1,p:9000,b:'Sadece oda'},
+      {id:'lu4',n:'Luna Villa',d:'200 m² · 4 yatak odası · şömineli',j:0,s:1,m:1,mv:'Orman + bahçe',av:1,p:20000,b:'Sadece oda'}
+    ]},
+    {h:'abant-cozy-homes',hn:'Abant Cozy Homes',rooms:[
+      {id:'ch1',n:'Küçük Ayı (1+1 Villa)',d:'50 m² loft · şömineli salon · çift kişilik jakuzi · mutfak',j:1,s:1,m:1,mv:'Orman',av:1,p:20350,b:'Sadece oda (kahvaltılı 23.650)'},
+      {id:'ch2',n:'Büyük Geyik (2+1 Villa)',d:'70 m² · 2 yatak odası · şömine · jakuzi',j:1,s:1,m:1,mv:'Bahçe',av:1,p:31350,b:'Sadece oda (kahvaltılı 34.650)'},
+      {id:'ch3',n:'Küçük Geyik (1+1 Villa)',d:'50 m² · jakuzi',j:1,s:2,m:1,mv:'Orman',av:0,p:20350,b:'Sadece oda'}
+    ]},
+    {h:'bi-abant-masali',hn:'Bi Abant Masalı',rooms:[
+      {id:'bm1',n:'Deluxe Oda Alt Kat, Şömineli',d:'Son 1',j:0,s:1,m:1,mv:'Dağ',av:1,p:32000,b:'Kahvaltı'},
+      {id:'bm2',n:'Grand Deluxe Suite, Teraslı',d:'Son 1',j:0,s:0,m:1,mv:'Dağ',av:1,p:32000,b:'Kahvaltı'},
+      {id:'bm3',n:'Classic Frenchbed, Şömineli ve Jakuzili',d:'Son 1 · tek büyük yatak',j:1,s:1,m:1,mv:'Doğa',av:1,p:32000,b:'Kahvaltı'},
+      {id:'bm4',n:'Signature Suite, Şömineli ve Balkonlu',d:'Son 1',j:0,s:1,m:1,mv:'Doğa',av:1,p:32000,b:'Kahvaltı'},
+      {id:'bm5',n:'Junior Suite, Şömineli ve Jakuzili',d:'Son 1',j:1,s:1,m:1,mv:'Dağ',av:1,p:36000,b:'Kahvaltı'},
+      {id:'bm6',n:'Master Suit, Şömineli ve Jakuzili',d:'Son 1',j:1,s:1,m:1,mv:'Doğa',av:1,p:36000,b:'Kahvaltı'},
+      {id:'bm7',n:'Executive Deluxe Suite, Şömineli ve Jakuzili',d:'Son 1 · manzarasız',j:1,s:1,m:0,mv:'Yok',av:1,p:36000,b:'Kahvaltı'},
+      {id:'bm8',n:'Executive Deluxe Suite, Şömineli ve Jakuzili',d:'Son 1 · dağ manzaralı',j:1,s:1,m:1,mv:'Dağ',av:1,p:36000,b:'Kahvaltı'},
+      {id:'bm9',n:'Executive Suite, Asma Kat',d:'Son 1',j:0,s:0,m:1,mv:'Dağ',av:1,p:40000,b:'Kahvaltı'},
+      {id:'bm10',n:'Penthouse Suit, Saunalı',d:'Son 1 · sauna',j:0,s:0,m:1,mv:'Doğa',av:1,p:40000,b:'Kahvaltı'},
+      {id:'bm11',n:'Family Suite, Şömineli',d:'Son 1 · aile',j:0,s:1,m:1,mv:'Dağ',av:1,p:57000,b:'Kahvaltı'},
+      {id:'bm12',n:'Family Suite, Şömineli ve Jakuzili',d:'Son 1 · aile',j:1,s:1,m:1,mv:'Doğa',av:1,p:65000,b:'Kahvaltı'},
+      {id:'bm13',n:'Executive Deluxe, Jakuzili ve Özel Bahçeli',d:'Son 1 · özel bahçe',j:1,s:2,m:1,mv:'Dağ',av:1,p:100000,b:'Kahvaltı'}
+    ]},
+    {h:'hindiba',hn:'Hindiba Doğa Evi',rooms:[
+      {id:'hd1',n:'Bungalov',d:'Son 1 · yarım pansiyon 21.160',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
+      {id:'hd2',n:'Bungalov Double',d:'Son 1 · yarım pansiyon 21.160',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
+      {id:'hd3',n:'Kayın (taş ev)',d:'Son 1 · yarım pansiyon 22.810',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:18810,b:'Kahvaltı'},
+      {id:'hd4',n:'Junior Hobbit Ev',d:'Son 1 · yarım pansiyon 23.250',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:19250,b:'Kahvaltı'}
+    ]}
+  ];
+  var F={j:false,s:false,m:false,a:false}, picked={};
+  function tl(n){return n.toLocaleString('tr-TR')+' TL';}
+  function tag(v,on,off){return v===1?'<span class="tag y">'+on+'</span>':v===0?'<span class="tag n">'+off+'</span>':'<span class="tag q">'+on+' ?</span>';}
+  function load(){
+    try{picked=JSON.parse(localStorage.getItem('rooms1')||'{}')||{};}catch(e){picked={};}
+    var m=location.hash.match(/rooms=([^&]+)/); if(m) m[1].split(',').forEach(function(id){if(id) picked[id]=1;});
+    var f=location.hash.match(/filt=([jsma]+)/); if(f) f[1].split('').forEach(function(k){F[k]=true;});
+  }
+  function save(){
+    try{localStorage.setItem('rooms1',JSON.stringify(picked));}catch(e){}
+    var hp=window.__hashParts=window.__hashParts||{};
+    hp.rooms=Object.keys(picked).filter(function(k){return picked[k]}).join(',');
+    hp.filt=Object.keys(F).filter(function(k){return F[k]}).join('');
+    if(window.__writeHash) window.__writeHash();
+  }
+  function pass(r){
+    if(F.j&&r.j!==1) return false; if(F.s&&r.s!==1) return false; if(F.m&&r.m!==1) return false; if(F.a&&!r.av) return false; return true;
+  }
+  function render(){
+    document.querySelectorAll('.rm-filters .chip').forEach(function(c){c.classList.toggle('on',!!F[c.dataset.f]);});
+    var list=document.getElementById('rm-list'); list.innerHTML=''; var shown=0,total=0,pk=[];
+    R.forEach(function(h){
+      var rows=h.rooms.filter(pass); total+=h.rooms.length; if(!rows.length) return; shown+=rows.length;
+      var div=document.createElement('div'); div.className='rm-hotel';
+      div.innerHTML='<h3><a href="#'+h.h+'" style="color:inherit;text-decoration:none">'+h.hn+'</a> <span class="sub">'+rows.length+' oda</span></h3>';
+      rows.forEach(function(r){
+        var on=!!picked[r.id]; if(on) pk.push(h.hn+' · '+r.n+' · '+tl(r.p));
+        div.innerHTML+='<div class="rm-row'+(on?' picked':'')+(r.av?'':' full')+'">'+
+          '<button class="heart'+(on?' on':'')+'" data-id="'+r.id+'" aria-label="Seç">'+(on?'♥':'♡')+'</button>'+
+          '<div class="nm">'+r.n+(r.av?'':' <span class="tag n">dolu</span>')+'<small>'+r.d+'</small></div>'+
+          '<div class="rm-tags">'+tag(r.j,'🛁 Jakuzi','Jakuzi')+tag(r.s,'🔥 Şömine','Şömine')+tag(r.m,'🏞️ '+r.mv,'Manzara')+'</div>'+
+          '<div class="pr secret">'+tl(r.p)+'<small>'+r.b+'</small></div></div>';
+      });
+      list.appendChild(div);
+    });
+    document.getElementById('rm-count').textContent=shown+' / '+total+' oda';
+    var pb=document.getElementById('rm-picked');
+    pb.innerHTML=pk.length?'<div class="box"><b>♥ Zeynep Balım\'ın seçtikleri:</b><br>'+pk.join('<br>')+'</div>':'';
+  }
+  document.querySelector('.rm-filters').addEventListener('click',function(e){
+    var c=e.target.closest('.chip'); if(!c) return; F[c.dataset.f]=!F[c.dataset.f]; save(); render();
+  });
+  document.getElementById('rm-list').addEventListener('click',function(e){
+    var b=e.target.closest('.heart'); if(!b) return; picked[b.dataset.id]=!picked[b.dataset.id]; save(); render();
   });
   load(); save(); render();
 })();
