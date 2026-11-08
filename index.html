@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Balımla Bolu Tatili</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   :root{--bg:#f6f4ef;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e5e2da;--ok:#1f8a4c;--okbg:#e6f5ec;--no:#b3261e;--nobg:#fbe9e7;--accent:#c2410c;}
   @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15151a;--card:#1f1f26;--ink:#f1f1ee;--muted:#a6a6a0;--line:#33333c;--okbg:#153c26;--ok:#5ad38a;--nobg:#4a1c18;--no:#ff8a80;--accent:#fb923c;}}
@@ -47,6 +49,13 @@
   body.unlocked .lock form{display:none}
   .lock .unlocked-msg{display:none;color:var(--ok);font-size:14px}
   body.unlocked .lock .unlocked-msg{display:inline}
+  #map{height:420px;width:100%}
+  @media(max-width:760px){#map{height:320px}}
+  .map-card .meta{padding:12px 20px}
+  .leaflet-popup-content{font:14px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#1d1d1b}
+  .leaflet-popup-content b{display:block;font-size:15px;margin-bottom:2px}
+  .leaflet-popup-content a{color:#c2410c;font-weight:600;text-decoration:none}
+  .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
 </style>
 </head>
 <body>
@@ -65,8 +74,21 @@
 </div>
 <main>
 
+<!-- ===== Harita ===== -->
+<section class="card map-card">
+  <div id="map"></div>
+  <div class="meta" style="border-top:0">
+    <span class="num">1</span><a href="#fikri-atalay">Fikri Atalay Konağı</a> &nbsp;
+    <span class="num">2</span><a href="#abant-sedir-park">Abant Sedir Park</a> &nbsp;
+    <span class="num">3</span><a href="#abant-luna">Abant Luna</a> &nbsp;
+    <span class="num">4</span><a href="#abant-cozy-homes">Abant Cozy Homes</a> &nbsp;
+    <span class="num">5</span><a href="#bi-abant-masali">Bi Abant Masalı</a>
+    <div class="sub" style="margin-top:6px">Mavi işaret Abant Gölü. 2 ve 4 aynı köyde (Ömerler), birbirine 50 m. 1 numara Mengen'de, diğerlerine ~1 saat uzak.</div>
+  </div>
+</section>
+
 <!-- ===== 1. Fikri Atalay Konağı ===== -->
-<section class="card">
+<section class="card" id="fikri-atalay">
   <div class="top">
     <div class="gallery">
       <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/31dd8c63-5ff7-41b0-a491-a5a69692a0c3-1024.jpg" alt="Fikri Atalay Konağı">
@@ -108,7 +130,7 @@
 </section>
 
 <!-- ===== 2. Abant Sedir Park ===== -->
-<section class="card">
+<section class="card" id="abant-sedir-park">
   <div class="top">
     <div class="gallery">
       <img src="https://abantsedirpark.com/uploads/67725fdb05175.webp" alt="Abant Sedir Park">
@@ -152,7 +174,7 @@
 </section>
 
 <!-- ===== 3. Abant Luna ===== -->
-<section class="card">
+<section class="card" id="abant-luna">
   <div class="top">
     <div class="gallery">
       <img src="https://cdng.jollytur.com/files/cms/media/hotel/a02b2a41-cb96-4b33-8e72-1d48815b90e9-1024.jpg" alt="Abant Luna">
@@ -194,7 +216,7 @@
 </section>
 
 <!-- ===== 4. Abant Cozy Homes ===== -->
-<section class="card">
+<section class="card" id="abant-cozy-homes">
   <div class="top">
     <div class="gallery">
       <img src="https://cdng.jollytur.com/files/cms/media/hotel/bc6c1a65-f6fe-4b64-a392-8406db6e43ab-1024.jpg" alt="Abant Cozy Homes">
@@ -237,7 +259,7 @@
 </section>
 
 <!-- ===== 5. Bi Abant Masalı ===== -->
-<section class="card">
+<section class="card" id="bi-abant-masali">
   <div class="top">
     <div class="gallery">
       <img src="https://cdng.jollytur.com/files/cms/media/hotel/0dad2a4c-c001-42fb-8649-2201e4fc932c-1024.jpg" alt="Bi Abant Masalı">
@@ -298,6 +320,27 @@
   document.getElementById('lockBtn').addEventListener('click',function(e){
     e.preventDefault(); body.classList.remove('unlocked'); try{sessionStorage.removeItem('otelUnlocked');}catch(e){}
   });
+})();
+</script>
+<script>
+(function(){
+  var hotels=[
+    {n:1,id:'fikri-atalay',name:'Fikri Atalay Konağı Bungalov Evleri',sub:'Mengen · Tiny house, jakuzili',ll:[40.913150,32.111499]},
+    {n:2,id:'abant-sedir-park',name:'Abant Sedir Park',sub:'Ömerler Köyü · Butik otel, kahvaltı dahil',ll:[40.700813,31.455402]},
+    {n:3,id:'abant-luna',name:'Abant Luna Boutique Villas',sub:'Akçaalan · Şömineli odalar, villa',ll:[40.677902,31.441498]},
+    {n:4,id:'abant-cozy-homes',name:'Abant Cozy Homes',sub:'Ömerler Köyü · Müstakil villa, jakuzi + şömine',ll:[40.700523,31.455631]},
+    {n:5,id:'bi-abant-masali',name:'Bi Abant Masalı',sub:'Abant · Lüks butik, 17 süit',ll:[40.659744,31.410908]}
+  ];
+  var map=L.map('map',{scrollWheelZoom:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+  var group=[];
+  hotels.forEach(function(h){
+    var icon=L.divIcon({className:'',html:'<div style="width:28px;height:28px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#c2410c;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4)"><div style="transform:rotate(45deg);color:#fff;font:700 13px/24px sans-serif;text-align:center">'+h.n+'</div></div>',iconSize:[28,28],iconAnchor:[14,28],popupAnchor:[0,-26]});
+    var m=L.marker(h.ll,{icon:icon}).addTo(map).bindPopup('<b>'+h.n+'. '+h.name+'</b>'+h.sub+'<br><a href="#'+h.id+'">Detaya git ↓</a> · <a href="https://www.google.com/maps?q='+h.ll[0]+','+h.ll[1]+'" target="_blank">Google Maps</a>');
+    group.push(m);
+  });
+  L.circleMarker([40.6075,31.2790],{radius:9,color:'#1d4ed8',fillColor:'#60a5fa',fillOpacity:.8,weight:2}).addTo(map).bindPopup('<b>Abant Gölü</b>Referans noktası');
+  map.fitBounds(L.featureGroup(group).getBounds().pad(0.25));
 })();
 </script>
 </body>
