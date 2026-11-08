@@ -31,6 +31,9 @@
   .sub{color:var(--muted);font-size:14px}
   .nights{display:flex;gap:16px;margin:12px 0;font-size:14px}
   .nights div span{display:block;color:var(--muted);font-size:12px}
+  .alt{margin-top:14px;padding:12px;border:1px dashed var(--line);border-radius:10px}
+  .alt .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+  .alt .sub{margin-top:6px}
   .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
   .links a{text-decoration:none;padding:8px 14px;border-radius:10px;border:1px solid var(--line);color:var(--ink);font-size:14px;font-weight:600}
   .links a.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -55,6 +58,8 @@
   .leaflet-popup-content{font:14px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#1d1d1b}
   .leaflet-popup-content b{display:block;font-size:15px;margin-bottom:2px}
   .leaflet-popup-content a{color:#c2410c;font-weight:600;text-decoration:none}
+  .lbl-tip{background:rgba(255,255,255,.9);border:0;border-radius:6px;font:600 12px sans-serif;color:#1d1d1b;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .lbl-tip::before{display:none}
   .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
 </style>
 </head>
@@ -62,7 +67,7 @@
 <header>
   <h1>Balımla Bolu Tatili 🍯🌲</h1>
   <p>Sadece ikimiz, orman, sis ve biraz da şömine ❤️</p>
-  <p>12–14 Kasım 2026 · 2 gece · 2 kişi · Fiyatlar 8 Kasım 2026'da kontrol edildi</p>
+  <p>Ana plan: <b>12–14 Kasım</b> (Per–Cmt) · Alternatif: <b>13–15 Kasım</b> (Cum–Paz) · 2 gece · 2 kişi · 8 Kasım 2026'da kontrol edildi</p>
 </header>
 <div class="lock">
   <form id="lockForm" autocomplete="off">
@@ -83,7 +88,7 @@
     <span class="num">3</span><a href="#abant-luna">Abant Luna</a> &nbsp;
     <span class="num">4</span><a href="#abant-cozy-homes">Abant Cozy Homes</a> &nbsp;
     <span class="num">5</span><a href="#bi-abant-masali">Bi Abant Masalı</a>
-    <div class="sub" style="margin-top:6px">Mavi işaret Abant Gölü. 2 ve 4 aynı köyde (Ömerler), birbirine 50 m. 1 numara Mengen'de, diğerlerine ~1 saat uzak.</div>
+    <div class="sub" style="margin-top:6px">🔵 Abant Gölü · 🟢 Yedigöller Milli Parkı. 2 ve 4 aynı köyde (Ömerler), birbirine 50 m. 1 numara Mengen'de, Yedigöller'e en yakın olan o; Abant'a ise ~1 saat.</div>
   </div>
 </section>
 
@@ -106,7 +111,12 @@
         <div><span>13 Kas Cum</span>13.956 TL</div>
       </div>
       <div class="sub">Oda: Bahçe manzaralı, çift kişilik yatak + sofa, jakuzi, mini buzdolabı, su ısıtıcı. Giriş 14:00 / Çıkış 12:00.</div>
-      <div class="links">
+            <div class="alt">
+        <div class="lbl">Alternatif: Cuma–Pazar, 13–15 Kasım</div>
+        <span class="badge no">✗ Dolu – Jolly'de uygun oda yok</span>
+        <div class="sub">Telefonla sorulabilir: Jolly 444 0 644 veya otelin kendi sitesi.</div>
+      </div>
+<div class="links">
         <a class="primary" href="https://www.jollytur.com/fikri-atalay-konagi-bungalov-evleri?Rooms=2&StartDate=2026.11.12&EndDate=2026.11.14" target="_blank">Jolly'de Rezervasyon</a>
         <a href="https://www.instagram.com/fikriatalaykonagi/" target="_blank">📷 @fikriatalaykonagi</a>
         <a href="https://www.fikriatalaykonagi.com" target="_blank">Web Sitesi</a>
@@ -148,7 +158,12 @@
         <div><span>13 Kas Cum</span>5.625 TL</div>
       </div>
       <div class="sub">İptal edilemez tarife. Alkol servisi yok. Ücretsiz otopark ve Wi-Fi. Giriş 14:00 / Çıkış 12:00. Jolly'de online satış yok, Etstur'dan bakıldı.</div>
-      <div class="links">
+            <div class="alt">
+        <div class="lbl">Alternatif: Cuma–Pazar, 13–15 Kasım</div>
+        <span class="badge ok">✓ Müsait – 3 oda tipi</span>
+        <div class="sub secret">Çift Kişilik Balkonlu 14.000 TL (son 1) · Deluxe Jakuzili 21.000 TL (son 2) · Ranzalı Aile 22.500 TL (son 3) · Maximum ile %8 indirim</div>
+      </div>
+<div class="links">
         <a class="primary" href="https://www.etstur.com/Abant-Sedir-Park?check_in=12.11.2026&check_out=14.11.2026&adult_1=2" target="_blank">Etstur'da Rezervasyon</a>
         <a href="https://www.jollytur.com/abant-sedir-park" target="_blank">Jolly (telefonla)</a>
         <a href="https://www.instagram.com/abantsedirpark/" target="_blank">📷 @abantsedirpark</a>
@@ -192,7 +207,12 @@
         <div><span>13 Kas Cum</span>3.500 TL</div>
       </div>
       <div class="sub">Orman manzaralı, çift kişilik yatak. Kahvaltı dahil değil. 0–6 yaş ücretsiz. Giriş 14:00 / Çıkış 12:00.</div>
-      <div class="links">
+            <div class="alt">
+        <div class="lbl">Alternatif: Cuma–Pazar, 13–15 Kasım</div>
+        <span class="badge no">✗ Dolu – 4 oda tipinde de müsaitlik yok</span>
+        <div class="sub secret">Olsaydı: Şömineli 8.500 TL · Diva 10.500 TL · Bungalov 12.500 TL · Villa 25.000 TL</div>
+      </div>
+<div class="links">
         <a class="primary" href="https://www.jollytur.com/abant-luna?Rooms=2&StartDate=2026.11.12&EndDate=2026.11.14" target="_blank">Jolly'de Rezervasyon</a>
         <a href="https://www.instagram.com/abantluna/" target="_blank">📷 @abantluna</a>
         <a href="https://www.google.com/maps?q=40.677902,31.441498" target="_blank">Haritada Aç</a>
@@ -234,7 +254,12 @@
         <div><span>13 Kas Cum</span>11.000 TL</div>
       </div>
       <div class="sub">50 m² müstakil loft villa: şömineli salon, 4 m tezgahlı rustik mutfak, çift kişilik jakuzi, yerden ısıtma, kendi bahçe ve verandası. Min. 2 gece. 0–5 yaş ücretsiz.</div>
-      <div class="links">
+            <div class="alt">
+        <div class="lbl">Alternatif: Cuma–Pazar, 13–15 Kasım</div>
+        <span class="badge ok">✓ Sadece Büyük Geyik (2+1 Villa) müsait</span>
+        <div class="sub secret">Büyük Geyik sadece oda 33.000 TL (sepette 32.010) · kahvaltılı 36.300 TL · Küçük Ayı ve Küçük Geyik 1+1 villalar dolu (olsaydı 22.000 TL)</div>
+      </div>
+<div class="links">
         <a class="primary" href="https://www.jollytur.com/abant-cozy-homes?Rooms=2&StartDate=2026.11.12&EndDate=2026.11.14" target="_blank">Jolly'de Rezervasyon</a>
         <a href="https://www.instagram.com/abantcozyhomes/" target="_blank">📷 @abantcozyhomes</a>
         <a href="https://www.booking.com/hotel/tr/abant-cozy-homes.html" target="_blank">Booking</a>
@@ -277,7 +302,12 @@
         <div><span>13 Kas Cum</span>16.000 TL</div>
       </div>
       <div class="sub">Lüks butik, 17 süit. Şömineli ve jakuzili odalar, a la carte restoran, helal büfe, nargile, EV şarj. İptal edilemez tarife. Jolly'de online satış yok, Etstur'dan bakıldı.</div>
-      <div class="links">
+            <div class="alt">
+        <div class="lbl">Alternatif: Cuma–Pazar, 13–15 Kasım</div>
+        <span class="badge ok">✓ Müsait – 11 oda tipi, her birinde son 1 oda</span>
+        <div class="sub secret">Tüm odalar 40.000 TL / 2 gece · Maximum ile 36.800 TL · Kahvaltı dahil, iptal edilemez</div>
+      </div>
+<div class="links">
         <a class="primary" href="https://www.etstur.com/bi-abant-masali?check_in=12.11.2026&check_out=14.11.2026&adult_1=2" target="_blank">Etstur'da Rezervasyon</a>
         <a href="https://www.jollytur.com/bi-abant-masali" target="_blank">Jolly (telefonla)</a>
         <a href="https://www.instagram.com/biabantmasali/" target="_blank">📷 @biabantmasali</a>
@@ -339,7 +369,11 @@
     var m=L.marker(h.ll,{icon:icon}).addTo(map).bindPopup('<b>'+h.n+'. '+h.name+'</b>'+h.sub+'<br><a href="#'+h.id+'">Detaya git ↓</a> · <a href="https://www.google.com/maps?q='+h.ll[0]+','+h.ll[1]+'" target="_blank">Google Maps</a>');
     group.push(m);
   });
-  L.circleMarker([40.6075,31.2790],{radius:9,color:'#1d4ed8',fillColor:'#60a5fa',fillOpacity:.8,weight:2}).addTo(map).bindPopup('<b>Abant Gölü</b>Referans noktası');
+  var abant=L.circleMarker([40.6075,31.2790],{radius:10,color:'#1d4ed8',fillColor:'#60a5fa',fillOpacity:.85,weight:2}).addTo(map).bindPopup('<b>Abant Gölü</b>Tabiat parkı, göl çevresi yürüyüşü ~7 km');
+  abant.bindTooltip('Abant Gölü',{permanent:true,direction:'bottom',offset:[0,8],className:'lbl-tip'});
+  var yedi=L.circleMarker([40.9402,31.7465],{radius:10,color:'#15803d',fillColor:'#4ade80',fillOpacity:.85,weight:2}).addTo(map).bindPopup('<b>Yedigöller Milli Parkı</b>Sonbahar renkleri için en iyi yer. Bolu merkeze ~40 km, yol kısmen stabilize.');
+  yedi.bindTooltip('Yedigöller',{permanent:true,direction:'top',offset:[0,-8],className:'lbl-tip'});
+  group.push(abant,yedi);
   map.fitBounds(L.featureGroup(group).getBounds().pad(0.25));
 })();
 </script>
