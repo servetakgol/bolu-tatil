@@ -108,13 +108,17 @@
   .wx-note{font-size:13px;color:var(--muted);padding:0 20px 16px}
   .rank-two{grid-template-columns:1fr 1fr}
   @media(max-width:860px){.rank-two{grid-template-columns:1fr}}
-  .rm-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 20px}
+  .rm-bar{max-width:1100px;margin:-8px auto 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 4px}
+  .rm-bar-t{font-weight:600;font-size:14px;color:var(--muted)}
+  .rm-block{padding:0 20px 16px}
+  .rm-block h4{margin:0 0 8px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .rm-block .nores{font-size:13px;color:var(--muted)}
   .chip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer;font-size:14px}
   .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   .rm-hotel{padding:0 20px 14px}
   .rm-hotel h3{margin:10px 0 6px;font-size:15px;display:flex;gap:8px;align-items:center}
   .rm-hotel h3 .sub{font-weight:400}
-  .rm-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--bg);font-size:14px}
+  .rm-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--bg);font-size:14px}
   .rm-row.hide{display:none}
   .rm-row.full{opacity:.55}
   .rm-row.picked{border-color:#be185d;box-shadow:inset 0 0 0 1px #be185d}
@@ -129,10 +133,10 @@
   .rm-row .pr small{display:block;font-weight:400;color:var(--muted);font-size:11px}
   .heart{border:1px solid var(--line);background:var(--card);border-radius:50%;width:34px;height:34px;font-size:17px;cursor:pointer;color:#be185d}
   .heart.on{background:#be185d;color:#fff;border-color:#be185d}
-  .rm-picked{padding:0 20px}
+  .rm-picked{flex-basis:100%}
   .rm-picked .box{border:1px dashed #be185d;border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:6px}
   .rm-picked .box b{color:#be185d}
-  @media(max-width:600px){.rm-row{grid-template-columns:1fr auto;grid-template-rows:auto auto}.rm-row .rm-tags{grid-column:1/3}.rm-row .pr{text-align:left}}
+  @media(max-width:600px){.rm-row{grid-template-columns:auto 1fr}.rm-row .rm-tags{grid-column:1/3}}
   .lbl-tip{background:rgba(255,255,255,.9);border:0;border-radius:6px;font:600 12px sans-serif;color:#1d1d1b;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
   .lbl-tip::before{display:none}
   .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
@@ -199,27 +203,18 @@
   </div>
 </section>
 
-<!-- ===== Oda Seçimi ===== -->
-<section class="card" id="odalar">
-  <div class="info" style="padding-bottom:0">
-    <h2>Hangi oda? 🛁🔥🏞️</h2>
-    <p class="loc">Üç kriter: jakuzi, şömine, manzara. Filtreyle daralt, beğendiğin odayı ❤ ile işaretle. Fiyatlar 12–14 Kasım, 2 gece, 2 kişi.</p>
-  </div>
-  <div class="rm-filters">
-    <button class="chip" data-f="j">🛁 Jakuzi</button>
-    <button class="chip" data-f="s">🔥 Şömine</button>
-    <button class="chip" data-f="m">🏞️ Manzara</button>
-    <button class="chip" data-f="a">✓ Müsait</button>
-    <span class="sub" id="rm-count"></span>
-  </div>
+<!-- ===== Oda filtresi ===== -->
+<div class="rm-bar" id="odalar">
+  <span class="rm-bar-t">Oda filtresi:</span>
+  <button class="chip" data-f="j">🛁 Jakuzi</button>
+  <button class="chip" data-f="s">🔥 Şömine</button>
+  <button class="chip" data-f="m">🏞️ Manzara</button>
+  <button class="chip" data-f="a">✓ Müsait</button>
+  <span class="sub" id="rm-count"></span>
+  <button class="chip" id="copyLink2" style="margin-left:auto">🔗 Seçimli linki kopyala</button>
+  <span class="okmsg" id="copyMsg2"></span>
   <div id="rm-picked" class="rm-picked"></div>
-  <div id="rm-list"></div>
-  <div class="rank-tools">
-    <button class="primary" id="copyLink2">🔗 Seçimli linki kopyala</button>
-    <span class="okmsg" id="copyMsg2"></span>
-    <span class="hint">? işareti: ilan sayfasında yazmıyor, otele sorulmalı. Fikri Atalay'da şömine yerine odun sobası var (fotoğraflarda görünüyor). Fiyatlar kilitliyse üstteki şifreyi gir.</span>
-  </div>
-</section>
+</div>
 
 <!-- ===== 1. Fikri Atalay Konağı ===== --><!-- ===== 1. Fikri Atalay Konağı ===== -->
 <section class="card" id="fikri-atalay">
@@ -645,8 +640,8 @@
       {id:'lu4',n:'Luna Villa',d:'200 m² · 4 yatak odası · şömineli',j:0,s:1,m:1,mv:'Orman + bahçe',av:1,p:20000,b:'Sadece oda'}
     ]},
     {h:'abant-cozy-homes',hn:'Abant Cozy Homes',rooms:[
-      {id:'ch1',n:'Küçük Ayı (1+1 Villa)',d:'50 m² loft · şömineli salon · çift kişilik jakuzi · mutfak',j:1,s:1,m:1,mv:'Orman',av:1,p:20350,b:'Sadece oda (kahvaltılı 23.650)'},
-      {id:'ch2',n:'Büyük Geyik (2+1 Villa)',d:'70 m² · 2 yatak odası · şömine · jakuzi',j:1,s:1,m:1,mv:'Bahçe',av:1,p:31350,b:'Sadece oda (kahvaltılı 34.650)'},
+      {id:'ch1',n:'Küçük Ayı (1+1 Villa)',d:'50 m² loft · şömineli salon · çift kişilik jakuzi · mutfak',j:1,s:1,m:1,mv:'Orman',av:1,p:20350,b:'Sadece oda'},
+      {id:'ch2',n:'Büyük Geyik (2+1 Villa)',d:'70 m² · 2 yatak odası · şömine · jakuzi',j:1,s:1,m:1,mv:'Bahçe',av:1,p:31350,b:'Sadece oda'},
       {id:'ch3',n:'Küçük Geyik (1+1 Villa)',d:'50 m² · jakuzi',j:1,s:2,m:1,mv:'Orman',av:0,p:20350,b:'Sadece oda'}
     ]},
     {h:'bi-abant-masali',hn:'Bi Abant Masalı',rooms:[
@@ -665,10 +660,10 @@
       {id:'bm13',n:'Executive Deluxe, Jakuzili ve Özel Bahçeli',d:'Son 1 · özel bahçe',j:1,s:2,m:1,mv:'Dağ',av:1,p:100000,b:'Kahvaltı'}
     ]},
     {h:'hindiba',hn:'Hindiba Doğa Evi',rooms:[
-      {id:'hd1',n:'Bungalov',d:'Son 1 · yarım pansiyon 21.160',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
-      {id:'hd2',n:'Bungalov Double',d:'Son 1 · yarım pansiyon 21.160',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
-      {id:'hd3',n:'Kayın (taş ev)',d:'Son 1 · yarım pansiyon 22.810',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:18810,b:'Kahvaltı'},
-      {id:'hd4',n:'Junior Hobbit Ev',d:'Son 1 · yarım pansiyon 23.250',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:19250,b:'Kahvaltı'}
+      {id:'hd1',n:'Bungalov',d:'Son 1',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
+      {id:'hd2',n:'Bungalov Double',d:'Son 1',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:17160,b:'Kahvaltı'},
+      {id:'hd3',n:'Kayın (taş ev)',d:'Son 1',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:18810,b:'Kahvaltı'},
+      {id:'hd4',n:'Junior Hobbit Ev',d:'Son 1',j:2,s:2,m:1,mv:'Bahçe / orman',av:1,p:19250,b:'Kahvaltı'}
     ]}
   ];
   var F={j:false,s:false,m:false,a:false}, picked={};
@@ -690,30 +685,32 @@
     if(F.j&&r.j!==1) return false; if(F.s&&r.s!==1) return false; if(F.m&&r.m!==1) return false; if(F.a&&!r.av) return false; return true;
   }
   function render(){
-    document.querySelectorAll('.rm-filters .chip').forEach(function(c){c.classList.toggle('on',!!F[c.dataset.f]);});
-    var list=document.getElementById('rm-list'); list.innerHTML=''; var shown=0,total=0,pk=[];
+    document.querySelectorAll('.rm-bar .chip[data-f]').forEach(function(c){c.classList.toggle('on',!!F[c.dataset.f]);});
+    var shown=0,total=0,pk=[];
     R.forEach(function(h){
-      var rows=h.rooms.filter(pass); total+=h.rooms.length; if(!rows.length) return; shown+=rows.length;
-      var div=document.createElement('div'); div.className='rm-hotel';
-      div.innerHTML='<h3><a href="#'+h.h+'" style="color:inherit;text-decoration:none">'+h.hn+'</a> <span class="sub">'+rows.length+' oda</span></h3>';
+      var sec=document.getElementById(h.h); if(!sec) return;
+      var blk=sec.querySelector('.rm-block');
+      if(!blk){blk=document.createElement('div');blk.className='rm-block';var meta=sec.querySelector('.meta');meta.parentNode.insertBefore(blk,meta);}
+      var rows=h.rooms.filter(pass); total+=h.rooms.length; shown+=rows.length;
+      var html='<h4>Oda tipleri · '+rows.length+'/'+h.rooms.length+'</h4>';
+      if(!rows.length) html+='<div class="nores">Bu filtreye uyan oda yok.</div>';
       rows.forEach(function(r){
-        var on=!!picked[r.id]; if(on) pk.push(h.hn+' · '+r.n+' · '+tl(r.p));
-        div.innerHTML+='<div class="rm-row'+(on?' picked':'')+(r.av?'':' full')+'">'+
+        var on=!!picked[r.id]; if(on) pk.push(h.hn+' · '+r.n);
+        html+='<div class="rm-row'+(on?' picked':'')+(r.av?'':' full')+'">'+
           '<button class="heart'+(on?' on':'')+'" data-id="'+r.id+'" aria-label="Seç">'+(on?'♥':'♡')+'</button>'+
           '<div class="nm">'+r.n+(r.av?'':' <span class="tag n">dolu</span>')+'<small>'+r.d+'</small></div>'+
-          '<div class="rm-tags">'+tag(r.j,'🛁 Jakuzi','Jakuzi')+tag(r.s,'🔥 Şömine','Şömine')+tag(r.m,'🏞️ '+r.mv,'Manzara')+'</div>'+
-          '<div class="pr secret">'+tl(r.p)+'<small>'+r.b+'</small></div></div>';
+          '<div class="rm-tags">'+tag(r.j,'🛁 Jakuzi','Jakuzi')+tag(r.s,'🔥 Şömine','Şömine')+tag(r.m,'🏞️ '+r.mv,'Manzara')+'</div></div>';
       });
-      list.appendChild(div);
+      blk.innerHTML=html;
     });
     document.getElementById('rm-count').textContent=shown+' / '+total+' oda';
     var pb=document.getElementById('rm-picked');
-    pb.innerHTML=pk.length?'<div class="box"><b>♥ Zeynep Balım\'ın seçtikleri:</b><br>'+pk.join('<br>')+'</div>':'';
+    pb.innerHTML=pk.length?'<div class="box"><b>♥ Zeynep Balım\'ın seçtikleri:</b> '+pk.join(' · ')+'</div>':'';
   }
-  document.querySelector('.rm-filters').addEventListener('click',function(e){
+  document.querySelector('.rm-bar').addEventListener('click',function(e){
     var c=e.target.closest('.chip'); if(!c) return; F[c.dataset.f]=!F[c.dataset.f]; save(); render();
   });
-  document.getElementById('rm-list').addEventListener('click',function(e){
+  document.addEventListener('click',function(e){
     var b=e.target.closest('.heart'); if(!b) return; picked[b.dataset.id]=!picked[b.dataset.id]; save(); render();
   });
   load(); save(); render();
