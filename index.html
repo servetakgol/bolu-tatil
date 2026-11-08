@@ -729,6 +729,8 @@
 <script>
 (function(){
   // j: jakuzi, s: şömine, m: manzara  (1 var, 0 yok, 2 ilanda yazmıyor) · av: müsait · pics: oda fotoğrafları
+  var T2='https://images.trvl-media.com/lodging/19000000/18710000/18703300/18703230/';
+  var T='https://images.trvl-media.com/lodging/46000000/45290000/45282200/45282160/';
   var J='https://cdng.jollytur.com/files/cms/media/hotel/room/', O='https://images.odamax.com/imgproxy/img/800x600/odamax/image/upload/';
   var R=[
     {h:'fikri-atalay',rooms:[
@@ -786,8 +788,6 @@
       {n:'Deluxe Oda, Şömineli',d:'Son 3 · 35 m² · küvet · 8,8/10 oda puanı · Cuma–Pazar da açık',j:0,s:1,m:1,mv:'Dağ',av:1,pics:['48f64d25','2d84135c','d153bb4c','200f994c'].map(function(x){return T2+x+'.jpg?impolicy=fcrop&w=1200&h=800'})}
     ]}
   ];
-  var T2='https://images.trvl-media.com/lodging/19000000/18710000/18703300/18703230/';
-  var T='https://images.trvl-media.com/lodging/46000000/45290000/45282200/45282160/';
   var F={j:false,s:false,m:false,a:false};
   function tag(v,on,off){return v===1?'<span class="tag y">'+on+'</span>':v===0?'<span class="tag n">'+off+'</span>':'<span class="tag q">'+on+' ?</span>';}
   function load(){var f=location.hash.match(/filt=([jsma]+)/); if(f) f[1].split('').forEach(function(k){F[k]=true;});}
