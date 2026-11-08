@@ -58,6 +58,31 @@
   .leaflet-popup-content{font:14px/1.4 -apple-system,BlinkMacSystemFont,sans-serif;color:#1d1d1b}
   .leaflet-popup-content b{display:block;font-size:15px;margin-bottom:2px}
   .leaflet-popup-content a{color:#c2410c;font-weight:600;text-decoration:none}
+  .rank-wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;padding:20px}
+  @media(max-width:860px){.rank-wrap{grid-template-columns:1fr}}
+  .rank-col h3{margin:0 0 10px;font-size:16px;display:flex;align-items:center;gap:8px}
+  .rank-col h3 .who{display:inline-block;width:26px;height:26px;border-radius:50%;color:#fff;font-size:13px;line-height:26px;text-align:center;font-weight:700}
+  .who.s{background:#c2410c}.who.z{background:#be185d}.who.o{background:#15803d}
+  .rank-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .rank-list li{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:14px}
+  .rank-list .pos{font-weight:700;width:20px;color:var(--muted)}
+  .rank-list .nm{flex:1}
+  .rank-list button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:13px}
+  .rank-list button:disabled{opacity:.3;cursor:default}
+  .rank-list li.gold{border-color:#d4a017;background:rgba(212,160,23,.12)}
+  .rank-list .pts{font-size:12px;color:var(--muted);white-space:nowrap}
+  .stars{display:inline-flex;gap:2px}
+  .stars button{border:0;background:none;width:24px;height:28px;font-size:20px;line-height:28px;color:#c9c5bb;cursor:pointer;padding:0}
+  .stars button.on{color:#f59e0b}
+  .stars button:hover,.stars button:hover~button{}
+  .rank-list .lblx{font-size:11px;color:var(--muted);width:78px;text-align:right}
+  .rank-list li.unrated{opacity:.75}
+  .bar{height:6px;border-radius:3px;background:linear-gradient(90deg,#c2410c,#f59e0b);margin-top:4px}
+  .rank-tools{padding:0 20px 20px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .rank-tools button{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;cursor:pointer}
+  .rank-tools button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rank-tools .hint{font-size:13px;color:var(--muted);flex-basis:100%}
+  .rank-tools .okmsg{color:var(--ok);font-size:14px;font-weight:600}
   .lbl-tip{background:rgba(255,255,255,.9);border:0;border-radius:6px;font:600 12px sans-serif;color:#1d1d1b;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
   .lbl-tip::before{display:none}
   .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
@@ -90,6 +115,25 @@
     <span class="num">5</span><a href="#bi-abant-masali">Bi Abant Masalı</a> &nbsp;
     <span class="num">6</span><a href="#hindiba">Hindiba Doğa Evi</a>
     <div class="sub" style="margin-top:6px">🔵 Abant Gölü · 🟢 Yedigöller Milli Parkı. 2 ve 4 aynı köyde (Ömerler), birbirine 50 m. 1 ve 6 Mengen'de, Yedigöller'e yakın olanlar onlar; Abant'a ise ~1 saat.</div>
+  </div>
+</section>
+
+<!-- ===== Sıralama ===== -->
+<section class="card" id="siralama">
+  <div class="info" style="padding-bottom:0">
+    <h2>Kim neyi istiyor? ⭐</h2>
+    <p class="loc">Her otele yıldız verin: ★ Gitmeyiz · ★★ Pek değil · ★★★ Olur · ★★★★ Gidebiliriz · ★★★★★ Kesin gidelim</p>
+  </div>
+  <div class="rank-wrap">
+    <div class="rank-col"><h3><span class="who s">S</span>Servet</h3><ol class="rank-list" id="rank-s"></ol></div>
+    <div class="rank-col"><h3><span class="who z">Z</span>Zeynep</h3><ol class="rank-list" id="rank-z"></ol></div>
+    <div class="rank-col"><h3><span class="who o">★</span>Ortak sonuç</h3><ol class="rank-list" id="rank-o"></ol></div>
+  </div>
+  <div class="rank-tools">
+    <button class="primary" id="copyLink">🔗 Puanlı linki kopyala</button>
+    <button id="resetRank">Sıfırla</button>
+    <span class="okmsg" id="copyMsg"></span>
+    <span class="hint">Sayfa statik olduğu için puanlar tarayıcında saklanır ve linke işlenir. Puanlarını ver, linki kopyala, Zeynep'e at; o da kendi sütununu doldurup linki sana geri atsın. İkiniz de aynı linki açınca ortak sonucu görürsünüz.</span>
   </div>
 </section>
 
@@ -427,6 +471,86 @@
   yedi.bindTooltip('Yedigöller',{permanent:true,direction:'top',offset:[0,-8],className:'lbl-tip'});
   group.push(abant,yedi);
   map.fitBounds(L.featureGroup(group).getBounds().pad(0.25));
+})();
+</script>
+<script>
+(function(){
+  var H=[
+    {id:'fikri-atalay',n:'Fikri Atalay Konağı'},
+    {id:'abant-sedir-park',n:'Abant Sedir Park'},
+    {id:'abant-luna',n:'Abant Luna'},
+    {id:'abant-cozy-homes',n:'Abant Cozy Homes'},
+    {id:'bi-abant-masali',n:'Bi Abant Masalı'},
+    {id:'hindiba',n:'Hindiba Doğa Evi'}
+  ];
+  var N=H.length, LBL=['—','Gitmeyiz','Pek değil','Olur','Gidebiliriz','Kesin gidelim'];
+  var state={s:zeros(),z:zeros()};
+  function zeros(){return H.map(function(){return 0});}
+  function valid(a){return Array.isArray(a)&&a.length===N&&a.every(function(v){return Number.isInteger(v)&&v>=0&&v<=5});}
+  function parseHash(){
+    var m=location.hash.match(/stars=([^&]+)/); if(!m) return;
+    var parts=m[1].split('|');
+    ['s','z'].forEach(function(k,i){ if(parts[i]){var a=parts[i].split('').map(Number); if(valid(a)) state[k]=a;} });
+  }
+  function load(){
+    try{var st=JSON.parse(localStorage.getItem('stars2')||'{}'); if(valid(st.s)) state.s=st.s; if(valid(st.z)) state.z=st.z;}catch(e){}
+    // link: merge non-zero values over local (so the other person's votes come in without wiping yours)
+    var m=location.hash.match(/stars=([^&]+)/);
+    if(m){var parts=m[1].split('|');['s','z'].forEach(function(k,i){ if(parts[i]){var a=parts[i].split('').map(Number); if(valid(a)) state[k]=state[k].map(function(v,j){return a[j]||v;});} });}
+  }
+  function save(){
+    try{localStorage.setItem('stars2',JSON.stringify(state));}catch(e){}
+    history.replaceState(null,'','#stars='+state.s.join('')+'|'+state.z.join(''));
+  }
+  function starsHtml(k,i,v){
+    var h='<span class="stars">';
+    for(var n=1;n<=5;n++) h+='<button data-k="'+k+'" data-i="'+i+'" data-v="'+n+'" class="'+(n<=v?'on':'')+'" aria-label="'+n+' yıldız">★</button>';
+    return h+'</span>';
+  }
+  function render(){
+    ['s','z'].forEach(function(k){
+      var ol=document.getElementById('rank-'+k); ol.innerHTML='';
+      H.forEach(function(h,i){
+        var v=state[k][i], li=document.createElement('li');
+        li.className=v?'' :'unrated';
+        li.innerHTML='<span class="nm">'+h.n+'</span>'+starsHtml(k,i,v)+'<span class="lblx">'+LBL[v]+'</span>';
+        ol.appendChild(li);
+      });
+    });
+    var score=H.map(function(h,i){return {i:i,s:state.s[i],z:state.z[i],t:state.s[i]+state.z[i],min:Math.min(state.s[i],state.z[i])};});
+    score.sort(function(a,b){return b.t-a.t||b.min-a.min;});
+    var ol=document.getElementById('rank-o'); ol.innerHTML='';
+    var anyRated=score.some(function(x){return x.t>0});
+    score.forEach(function(sc,pos){
+      var li=document.createElement('li');
+      var medal=anyRated&&sc.t>0?(pos===0?'🥇':pos===1?'🥈':pos===2?'🥉':''):'';
+      var veto=(sc.s===1||sc.z===1)?' <span title="Biri gitmeyiz demiş">🚫</span>':'';
+      li.innerHTML='<span class="pos">'+(pos+1)+'</span><span class="nm">'+medal+' <a href="#'+H[sc.i].id+'" style="color:inherit;text-decoration:none">'+H[sc.i].n+'</a>'+veto+
+        '<div class="bar" style="width:'+(sc.t*10)+'%"></div></span><span class="pts">S'+(sc.s||'–')+' + Z'+(sc.z||'–')+' = '+sc.t+'/10</span>';
+      if(pos===0&&sc.t>0) li.className='gold';
+      ol.appendChild(li);
+    });
+  }
+  document.getElementById('siralama').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-k]'); if(!b) return;
+    var k=b.dataset.k,i=+b.dataset.i,v=+b.dataset.v;
+    state[k][i]=(state[k][i]===v)?0:v; // same star again clears
+    save(); render();
+  });
+  document.getElementById('copyLink').addEventListener('click',function(){
+    save();
+    var url=location.href.split('#')[0]+location.hash;
+    var msg=document.getElementById('copyMsg');
+    function ok(){msg.textContent='Kopyalandı ✓'; setTimeout(function(){msg.textContent='';},2500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(ok,function(){prompt('Linki kopyala:',url);});}
+    else prompt('Linki kopyala:',url);
+  });
+  document.getElementById('resetRank').addEventListener('click',function(){
+    if(!confirm('İki puanlama da sıfırlansın mı?')) return;
+    state.s=zeros(); state.z=zeros();
+    try{localStorage.removeItem('stars2');}catch(e){} history.replaceState(null,'',location.pathname); render();
+  });
+  load(); save(); render();
 })();
 </script>
 </body>
