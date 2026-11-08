@@ -94,6 +94,19 @@
   #lb .prev{left:12px;top:50%;transform:translateY(-50%)}
   #lb .next{right:12px;top:50%;transform:translateY(-50%)}
   @media(max-width:600px){#lb .prev,#lb .next{top:auto;bottom:16px;transform:none}#lb .prev{left:16px}#lb .next{right:16px}}
+  .wx-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 20px 20px}
+  @media(max-width:760px){.wx-wrap{grid-template-columns:1fr}}
+  .wx-col h3{margin:0 0 8px;font-size:15px}
+  .wx-days{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .wx-day{border:1px solid var(--line);border-radius:10px;padding:8px 6px;text-align:center;background:var(--bg)}
+  .wx-day.trip{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+  .wx-day .d{font-size:12px;color:var(--muted)}
+  .wx-day .i{font-size:28px;line-height:1.2;margin:2px 0}
+  .wx-day .t{font-weight:700;font-size:14px}
+  .wx-day .t small{color:var(--muted);font-weight:400}
+  .wx-day .p{font-size:11px;color:var(--muted);margin-top:2px}
+  .wx-day .w{font-size:11px;margin-top:2px}
+  .wx-note{font-size:13px;color:var(--muted);padding:0 20px 16px}
   .lbl-tip{background:rgba(255,255,255,.9);border:0;border-radius:6px;font:600 12px sans-serif;color:#1d1d1b;padding:2px 6px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
   .lbl-tip::before{display:none}
   .num{display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-align:center;line-height:22px;margin-right:6px}
@@ -114,6 +127,19 @@
   <span class="unlocked-msg">🔓 Fiyatlar açık · <a href="#" id="lockBtn">kilitle</a></span>
 </div>
 <main>
+
+<!-- ===== Hava Durumu ===== -->
+<section class="card" id="hava">
+  <div class="info" style="padding-bottom:12px">
+    <h2>Hava nasıl olacak? 🌤️</h2>
+    <p class="loc" id="wx-sub">Yükleniyor…</p>
+  </div>
+  <div class="wx-wrap">
+    <div class="wx-col"><h3>🏞️ Abant tarafı <span class="sub">(2, 3, 4, 5 numaralar · ~1.300 m)</span></h3><div class="wx-days" id="wx-abant"></div></div>
+    <div class="wx-col"><h3>🌲 Mengen / Yedigöller tarafı <span class="sub">(1 ve 6 numaralar · ~800 m)</span></h3><div class="wx-days" id="wx-mengen"></div></div>
+  </div>
+  <div class="wx-note" id="wx-note">Kaynak: Open-Meteo. Turuncu çerçeveli günler tatil günleri. Tahmin 7 günden sonra belirsizleşir; gitmeden bir gün önce tekrar bakın.</div>
+</section>
 
 <!-- ===== Harita ===== -->
 <section class="card map-card">
@@ -599,6 +625,44 @@
   var tx=null;
   lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
   lb.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50) show(idx+(dx<0?1:-1));tx=null;},{passive:true});
+})();
+</script>
+<script>
+(function(){
+  var WC={0:['☀️','Açık'],1:['🌤️','Az bulutlu'],2:['⛅','Parçalı bulutlu'],3:['☁️','Kapalı'],45:['🌫️','Sisli'],48:['🌫️','Kırağılı sis'],
+    51:['🌦️','Hafif çisenti'],53:['🌦️','Çisenti'],55:['🌧️','Yoğun çisenti'],56:['🌧️','Donan çisenti'],57:['🌧️','Donan çisenti'],
+    61:['🌧️','Hafif yağmur'],63:['🌧️','Yağmur'],65:['🌧️','Kuvvetli yağmur'],66:['🌧️','Donan yağmur'],67:['🌧️','Donan yağmur'],
+    71:['🌨️','Hafif kar'],73:['❄️','Kar'],75:['❄️','Yoğun kar'],77:['🌨️','Kar taneleri'],
+    80:['🌦️','Sağanak'],81:['🌧️','Sağanak'],82:['⛈️','Şiddetli sağanak'],85:['🌨️','Kar sağanağı'],86:['❄️','Yoğun kar sağanağı'],
+    95:['⛈️','Fırtına'],96:['⛈️','Dolu'],99:['⛈️','Dolu']};
+  var DAYS=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+  var TRIP=['2026-11-12','2026-11-13','2026-11-14','2026-11-15'];
+  function fmt(d){var x=new Date(d+'T12:00:00');return x.getDate()+' Kas '+DAYS[x.getDay()];}
+  function render(el,data){
+    el.innerHTML='';
+    var d=data.daily, idx=TRIP.map(function(t){return d.time.indexOf(t)}).filter(function(i){return i>=0});
+    if(!idx.length){el.innerHTML='<div class="sub">Bu tarihler henüz tahmin aralığında değil.</div>';return;}
+    idx.forEach(function(i){
+      var wc=WC[d.weathercode[i]]||['🌡️','—'];
+      var snow=d.snowfall_sum[i]>0?' ❄'+Math.round(d.snowfall_sum[i])+'cm':'';
+      el.innerHTML+='<div class="wx-day trip"><div class="d">'+fmt(d.time[i])+'</div><div class="i" title="'+wc[1]+'">'+wc[0]+'</div>'+
+        '<div class="t">'+Math.round(d.temperature_2m_max[i])+'° <small>/ '+Math.round(d.temperature_2m_min[i])+'°</small></div>'+
+        '<div class="w">'+wc[1]+'</div>'+
+        '<div class="p">☔ %'+(d.precipitation_probability_max[i]||0)+' · '+Math.round(d.precipitation_sum[i])+'mm'+snow+'</div></div>';
+    });
+  }
+  function get(lat,lon,el){
+    var u='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,snowfall_sum&timezone=Europe%2FIstanbul&forecast_days=16';
+    return fetch(u).then(function(r){return r.json()}).then(function(j){render(el,j);return j;});
+  }
+  Promise.all([get(40.6075,31.2790,document.getElementById('wx-abant')),get(40.95,32.08,document.getElementById('wx-mengen'))]).then(function(res){
+    var d=res[0].daily,i=d.time.indexOf('2026-11-12');
+    var sub='12–15 Kasım tahmini · şimdi güncellendi';
+    if(i>=0){var snowy=TRIP.some(function(t){var k=d.time.indexOf(t);return k>=0&&d.snowfall_sum[k]>0});
+      var rainy=TRIP.some(function(t){var k=d.time.indexOf(t);return k>=0&&d.precipitation_probability_max[k]>=50});
+      sub+= snowy?' · ❄️ Abant\'ta kar görünüyor, zincir/kış lastiği düşünün':rainy?' · ☔ Yağmur ihtimali var, şömineli oda iyi fikir':' · 🍂 Kuru görünüyor, yürüyüş için uygun';}
+    document.getElementById('wx-sub').textContent=sub;
+  }).catch(function(){document.getElementById('wx-sub').textContent='Hava durumu alınamadı (bağlantı yok ya da servis kapalı).';});
 })();
 </script>
 </body>
