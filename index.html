@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balımla Bolu Tatili</title>
+<style>
+  :root{--bg:#f6f4ef;--card:#fff;--ink:#1d1d1b;--muted:#6b6b66;--line:#e5e2da;--ok:#1f8a4c;--okbg:#e6f5ec;--no:#b3261e;--nobg:#fbe9e7;--accent:#c2410c;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#15151a;--card:#1f1f26;--ink:#f1f1ee;--muted:#a6a6a0;--line:#33333c;--okbg:#153c26;--ok:#5ad38a;--nobg:#4a1c18;--no:#ff8a80;--accent:#fb923c;}}
+  :root[data-theme="dark"]{--bg:#15151a;--card:#1f1f26;--ink:#f1f1ee;--muted:#a6a6a0;--line:#33333c;--okbg:#153c26;--ok:#5ad38a;--nobg:#4a1c18;--no:#ff8a80;--accent:#fb923c;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:24px 16px 48px}
+  header{max-width:1100px;margin:0 auto 24px}
+  h1{margin:0 0 4px;font-size:28px}
+  header p{margin:0;color:var(--muted)}
+  main{max-width:1100px;margin:0 auto;display:grid;gap:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .top{display:grid;grid-template-columns:1.2fr 1fr;gap:0}
+  @media(max-width:760px){.top{grid-template-columns:1fr}}
+  .gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:180px 180px;gap:4px}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;background:var(--line)}
+  .gallery img:first-child{grid-row:1/3}
+  .info{padding:20px}
+  .info h2{margin:0 0 4px;font-size:22px}
+  .loc{color:var(--muted);margin:0 0 12px}
+  .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:14px;font-weight:600}
+  .ok{background:var(--okbg);color:var(--ok)} .no{background:var(--nobg);color:var(--no)}
+  .price{font-size:26px;font-weight:700;margin:12px 0 2px}
+  .sub{color:var(--muted);font-size:14px}
+  .nights{display:flex;gap:16px;margin:12px 0;font-size:14px}
+  .nights div span{display:block;color:var(--muted);font-size:12px}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .links a{text-decoration:none;padding:8px 14px;border-radius:10px;border:1px solid var(--line);color:var(--ink);font-size:14px;font-weight:600}
+  .links a.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .meta{padding:0 20px 20px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:12px}
+  .meta b{color:var(--ink)}
+  iframe{width:100%;height:220px;border:0;display:block;border-top:1px solid var(--line)}
+  details summary{cursor:pointer;color:var(--accent);font-weight:600}
+  .thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .thumbs img{width:110px;height:80px;object-fit:cover;border-radius:6px}
+  .secret{filter:blur(9px);user-select:none;pointer-events:none;transition:filter .3s}
+  body.unlocked .secret{filter:none;user-select:auto;pointer-events:auto}
+  .lock{max-width:1100px;margin:0 auto 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .lock input{padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:15px}
+  .lock button{padding:8px 14px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+  .lock .msg{color:var(--no);font-size:14px}
+  body.unlocked .lock form{display:none}
+  .lock .unlocked-msg{display:none;color:var(--ok);font-size:14px}
+  body.unlocked .lock .unlocked-msg{display:inline}
+</style>
+</head>
+<body>
+<header>
+  <h1>Balımla Bolu Tatili 🍯🌲</h1>
+  <p>Sadece ikimiz, orman, sis ve biraz da şömine ❤️</p>
+  <p>12–14 Kasım 2026 · 2 gece · 2 kişi · Fiyatlar 8 Kasım 2026'da kontrol edildi</p>
+</header>
+<div class="lock">
+  <form id="lockForm" autocomplete="off">
+    <input type="password" id="pw" placeholder="Fiyatları görmek için şifre" aria-label="Şifre">
+    <button type="submit">🔒 Fiyatları Göster</button>
+    <span class="msg" id="pwMsg"></span>
+  </form>
+  <span class="unlocked-msg">🔓 Fiyatlar açık · <a href="#" id="lockBtn">kilitle</a></span>
+</div>
+<main>
+
+<!-- ===== 1. Fikri Atalay Konağı ===== -->
+<section class="card">
+  <div class="top">
+    <div class="gallery">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/31dd8c63-5ff7-41b0-a491-a5a69692a0c3-1024.jpg" alt="Fikri Atalay Konağı">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/1ba9cb7c-13c6-456b-99eb-77a9ff462507-1024.jpg" alt="">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/ebdf4b6b-394e-4815-9043-1d488fa75149-1024.jpg" alt="">
+    </div>
+    <div class="info">
+      <h2>Fikri Atalay Konağı Bungalov Evleri</h2>
+      <p class="loc">📍 Bolu / Mengen – Nazırlar Köyü, Bekirler Mevkii · Jolly puanı 10/10 (308 yorum)</p>
+      <span class="badge ok">✓ Müsait – Tiny House (Oda + Kahvaltı)</span>
+      <div class="price secret">22.816 TL <span class="sub">/ 2 gece</span></div>
+      <div class="sub secret">Sepette indirimli: 22.132 TL · 9 taksit × 2.535 TL · 0–6 yaş ücretsiz</div>
+      <div class="nights secret">
+        <div><span>12 Kas Per</span>8.860 TL</div>
+        <div><span>13 Kas Cum</span>13.956 TL</div>
+      </div>
+      <div class="sub">Oda: Bahçe manzaralı, çift kişilik yatak + sofa, jakuzi, mini buzdolabı, su ısıtıcı. Giriş 14:00 / Çıkış 12:00.</div>
+      <div class="links">
+        <a class="primary" href="https://www.jollytur.com/fikri-atalay-konagi-bungalov-evleri?Rooms=2&StartDate=2026.11.12&EndDate=2026.11.14" target="_blank">Jolly'de Rezervasyon</a>
+        <a href="https://www.instagram.com/fikriatalaykonagi/" target="_blank">📷 @fikriatalaykonagi</a>
+        <a href="https://www.fikriatalaykonagi.com" target="_blank">Web Sitesi</a>
+        <a href="https://www.google.com/maps?q=40.913150,32.111499" target="_blank">Haritada Aç</a>
+      </div>
+    </div>
+  </div>
+  <div class="meta">
+    <details>
+      <summary>Daha fazla fotoğraf</summary>
+      <div class="thumbs">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/648f64a0-9bba-4c35-87fc-eeada802aede-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/2e7d88d0-92f5-41d0-9f1c-ba4f018756f5-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/3d3c7372-7741-472e-b315-9ff65ac53b36-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/room/142c28da-12c1-49b3-8104-4588ee6950d3-1024.jpg" alt="">
+      </div>
+    </details>
+    <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 78K takipçi. Evcil hayvan kabul ediliyor (ek ücret olabilir). Fotoğraflar Jolly'den alındı.</p>
+  </div>
+  <iframe loading="lazy" src="https://www.google.com/maps?q=40.913150,32.111499&z=13&output=embed" title="Harita"></iframe>
+</section>
+
+<!-- ===== 2. Abant Sedir Park ===== -->
+<section class="card">
+  <div class="top">
+    <div class="gallery">
+      <img src="https://abantsedirpark.com/uploads/67725fdb05175.webp" alt="Abant Sedir Park">
+      <img src="https://abantsedirpark.com/uploads/67725fdb2d3c4.webp" alt="">
+      <img src="https://abantsedirpark.com/uploads/67725fdb7d038.webp" alt="">
+    </div>
+    <div class="info">
+      <h2>Abant Sedir Park</h2>
+      <p class="loc">📍 Bolu / Merkez – Ömerler Köyü (Abant yolu üzeri) · Etstur puanı 9.2/10 (501 yorum)</p>
+      <span class="badge ok">✓ Müsait – 3 oda tipi (Kahvaltı Dahil)</span>
+      <div class="price secret">11.250 TL <span class="sub">/ 2 gece'den başlayan</span></div>
+      <div class="sub secret">Çift Kişilik Bahçe Manz. Balkonlu 11.250 TL (son 6) · Deluxe Jakuzili 18.000 TL (son 2) · Ranzalı Aile 18.375 TL (son 4) · Maximum kart ile %8 ek indirim</div>
+      <div class="nights secret">
+        <div><span>12 Kas Per</span>5.625 TL</div>
+        <div><span>13 Kas Cum</span>5.625 TL</div>
+      </div>
+      <div class="sub">İptal edilemez tarife. Alkol servisi yok. Ücretsiz otopark ve Wi-Fi. Giriş 14:00 / Çıkış 12:00. Jolly'de online satış yok, Etstur'dan bakıldı.</div>
+      <div class="links">
+        <a class="primary" href="https://www.etstur.com/Abant-Sedir-Park?check_in=12.11.2026&check_out=14.11.2026&adult_1=2" target="_blank">Etstur'da Rezervasyon</a>
+        <a href="https://www.jollytur.com/abant-sedir-park" target="_blank">Jolly (telefonla)</a>
+        <a href="https://www.instagram.com/abantsedirpark/" target="_blank">📷 @abantsedirpark</a>
+        <a href="https://abantsedirpark.com/tr" target="_blank">Web Sitesi</a>
+        <a href="https://www.google.com/maps?q=40.700813,31.455402" target="_blank">Haritada Aç</a>
+      </div>
+    </div>
+  </div>
+  <div class="meta">
+    <details>
+      <summary>Daha fazla fotoğraf</summary>
+      <div class="thumbs">
+        <img src="https://abantsedirpark.com/uploads/67725fdba57fa.webp" alt="">
+        <img src="https://abantsedirpark.com/uploads/67725fdc81cdf.webp" alt="">
+        <img src="https://abantsedirpark.com/uploads/67725fdcbc77e.webp" alt="">
+        <img src="https://abantsedirpark.com/uploads/67725fe0100a9.webp" alt="">
+        <img src="https://abantsedirpark.com/uploads/67725fe38ae57.webp" alt="">
+      </div>
+    </details>
+    <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 67K takipçi. Tel: +90 374 225 25 55. Yorumlarda kış aylarında köyde kömür dumanı şikayeti var. Fotoğraflar otelin sitesinden.</p>
+  </div>
+  <iframe loading="lazy" src="https://www.google.com/maps?q=40.700813,31.455402&z=13&output=embed" title="Harita"></iframe>
+</section>
+
+<!-- ===== 3. Abant Luna ===== -->
+<section class="card">
+  <div class="top">
+    <div class="gallery">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/a02b2a41-cb96-4b33-8e72-1d48815b90e9-1024.jpg" alt="Abant Luna">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/a446357d-9dda-46c1-8941-ca22fdabe2a2-1024.jpg" alt="">
+      <img src="https://cdng.jollytur.com/files/cms/media/hotel/f6c37374-7c1f-4208-88f7-72a8ae584c04-1024.jpg" alt="">
+    </div>
+    <div class="info">
+      <h2>Abant Luna Boutique Villas</h2>
+      <p class="loc">📍 Bolu / Abant – Akçaalan, Küme Evler No:41 · Obilet puanı 9.2/10 (12 yorum)</p>
+      <span class="badge ok">✓ Müsait – 4 oda tipi (Sadece Oda)</span>
+      <div class="price secret">7.000 TL <span class="sub">/ 2 gece'den başlayan</span></div>
+      <div class="sub secret">Luna Şömineli 7.000 TL (sepette 6.790) · Luna Diva 8.000 TL · Luna Bungalov 9.000 TL · Luna Villa 20.000 TL · 9 taksit × 778 TL</div>
+      <div class="nights secret">
+        <div><span>12 Kas Per</span>3.500 TL</div>
+        <div><span>13 Kas Cum</span>3.500 TL</div>
+      </div>
+      <div class="sub">Orman manzaralı, çift kişilik yatak. Kahvaltı dahil değil. 0–6 yaş ücretsiz. Giriş 14:00 / Çıkış 12:00.</div>
+      <div class="links">
+        <a class="primary" href="https://www.jollytur.com/abant-luna?Rooms=2&StartDate=2026.11.12&EndDate=2026.11.14" target="_blank">Jolly'de Rezervasyon</a>
+        <a href="https://www.instagram.com/abantluna/" target="_blank">📷 @abantluna</a>
+        <a href="https://www.google.com/maps?q=40.677902,31.441498" target="_blank">Haritada Aç</a>
+      </div>
+    </div>
+  </div>
+  <div class="meta">
+    <details>
+      <summary>Daha fazla fotoğraf</summary>
+      <div class="thumbs">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/1f064efe-40b8-4b9b-80c8-3be418fca264-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/b59a4cf9-7ade-4041-b84f-9742140aa173-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/85c89cf9-ee8a-4311-9f68-7bcea17a76e3-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/b9a9637b-ab33-421e-9dfb-a9f45e9ef777-1024.jpg" alt="">
+        <img src="https://cdng.jollytur.com/files/cms/media/hotel/adec6623-b41e-48e3-ac17-133756832d47-1024.jpg" alt="">
+      </div>
+    </details>
+    <p style="margin:12px 0 0"><b>Not:</b> Instagram'da 1.4K takipçi, küçük butik villa işletmesi. Abant Gölü'ne yakın. Fotoğraflar Jolly'den.</p>
+  </div>
+  <iframe loading="lazy" src="https://www.google.com/maps?q=40.677902,31.441498&z=13&output=embed" title="Harita"></iframe>
+</section>
+
+</main>
+<script>
+(function(){
+  // Şifre: bolu2026 — değiştirmek için aşağıdaki HASH değerini güncelle (console: h("yeniSifre"))
+  var HASH = 1370862721;
+  function h(str){var x=5381;for(var i=0;i<str.length;i++){x=((x<<5)+x+str.charCodeAt(i))|0;}return x>>>0;}
+  window.h=h;
+  var body=document.body;
+  try{ if(sessionStorage.getItem('otelUnlocked')==='1') body.classList.add('unlocked'); }catch(e){}
+  document.getElementById('lockForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=document.getElementById('pw').value;
+    if(h(v)===HASH){ body.classList.add('unlocked'); try{sessionStorage.setItem('otelUnlocked','1');}catch(e){} document.getElementById('pwMsg').textContent=''; }
+    else { document.getElementById('pwMsg').textContent='Yanlış şifre'; document.getElementById('pw').value=''; }
+  });
+  document.getElementById('lockBtn').addEventListener('click',function(e){
+    e.preventDefault(); body.classList.remove('unlocked'); try{sessionStorage.removeItem('otelUnlocked');}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
